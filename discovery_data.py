@@ -2,6 +2,8 @@ import pandas as pd
 from imblearn.under_sampling import RandomUnderSampler
 from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 
 
 # ============================================================
@@ -38,9 +40,6 @@ df_review_bal, df_review_bal['sentiment'] = rus.fit_resample(
     df_review_des[['review']], 
     df_review_des['sentiment']
     )
-print(df_review_bal)
-data_count_balance = df_review_bal.value_counts('sentiment')
-print(data_count_balance)
 
 # ============================================================
 # 6. DIVIDIR LOS DATOS EN ENTRENAMIENTO Y PRUEBA
@@ -62,3 +61,18 @@ test_x, test_y = test['review'], test['sentiment']
 tfidf = TfidfVectorizer(stop_words='english')
 train_x_vector = tfidf.fit_transform(train_x)
 test_x_vector = tfidf.transform(test_x)
+
+# ============================================================
+# 8. SUPPORT VECTOR MACHINE (SVM)
+# ============================================================
+svc = SVC(kernel="linear")
+svc.fit(train_x_vector, train_y)
+
+#Testear la predicion de nuestro modelo en base a un review propio 
+#print(svc.predict(tfidf.transform(["i don´t like this movie"])))
+
+# ============================================================
+# 9. DECISION TREE
+# ============================================================
+des_tree = DecisionTreeClassifier()
+des_tree.fit(train_x_vector, train_y)
