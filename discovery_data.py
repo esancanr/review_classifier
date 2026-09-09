@@ -4,6 +4,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.svm import SVC
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
 
 
 # ============================================================
@@ -76,3 +78,23 @@ svc.fit(train_x_vector, train_y)
 # ============================================================
 des_tree = DecisionTreeClassifier()
 des_tree.fit(train_x_vector, train_y)
+
+# ============================================================
+# 10. NAIVE BAYES
+# ============================================================
+gnb = GaussianNB()
+gnb.fit(train_x_vector.toarray(), train_y)
+
+# ============================================================
+# 11. LOGISTIC REGRESSION
+# ============================================================
+lr = LogisticRegression()
+lr.fit(train_x_vector, train_y)
+
+# ============================================================
+# 12. MODEL EVALUATION 
+# ============================================================
+print(svc.score(test_x_vector, test_y)) #0.8378787878787879
+print(des_tree.score(test_x_vector, test_y)) #0.7166666666666667
+print(gnb.score(test_x_vector.toarray(), test_y)) #0.6075757575757575
+print(lr.score(test_x_vector, test_y)) #0.8454545454545455
